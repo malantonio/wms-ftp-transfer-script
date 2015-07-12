@@ -5,6 +5,50 @@ ad-hoc reports building, they do plan to continue uploading circulation add/dele
 item inventory reports on a weekly basis. After a little bit of setup, these bash 
 scripts can be used to automate the transfer from OCLC's SFTP to your own server.
 
+## setup
+
+You'll want to either use a prexisting public/private keypair or generate one specifically
+for gathering reports.
+
+### A) Generate an SSH keypair
+
+```
+ssh-keygen
+```
+
+**Note:** when creating your keypair, be sure to leave the passphrase blank if you're planning
+to automate the report-copying process.
+
+### B) Copy the public file and move it to the SFTP
+
+The SFTP server is quite stripped down as far as what commands can be run (I was only
+able to run very basic `ls`, `mkdir`, `rm`, and `chmod` commands, most without the
+extra flags needed to accomplish anything worthwhile). I found it easier to make the
+changes on my end before placing them on the OCLC server.
+
+```
+cp ~/.ssh/id_rsa.pub ~/.ssh/oclc_authorized_keys
+chmod 640 ~/.ssh/oclc_authorized_keys
+scp ~/.ssh/oclc_authorized_keys lol@scp.oclc.org:.ssh/authorized_keys
+```
+
+**Note:** if you created a separate key, use that name in place of `id_rsa`.
+
+**Another note:** `lol` should be replaced with your library's OCLC symbol.
+
+Enter `yes` to add the SFTP's IP to your list of authorized hosts, then enter your 
+password.
+
+### C) Give it a whirl
+
+Try running:
+
+```
+sftp lol@scp.oclc.org
+```
+
+If it connects without prompting you for a password, you're all set to go!
+
 ## usage
 
 ```
