@@ -78,5 +78,5 @@ up a `cron` (on an EST-based server) would look like:
 
 ```
 0 8 * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/circ-add-delete
-0 & * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
+0 8 * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
 ```
