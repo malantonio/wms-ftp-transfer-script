@@ -60,9 +60,23 @@ With the exception of the titles of the files being copied, the two scripts are 
 (Probably could do to combine them and add another variable / flag). Both accept the 
 following environment variables:
 
-     var     |               description               | required? | default value
--------------|-----------------------------------------|-----------|---------------
-OCLC_SYMBOL  | your institution's OCLC registry symbol |    yes    |
-REPORTS_PATH | where to store the reports              |    no     | current working directory
-DATE         | date (formatted `YYYYMMDD`) of report   |    no     | today's date
-DEBUG        | set to `1` to `echo` the command out    |    no     | 0
+      var      |               description               | required? | default value
+---------------|-----------------------------------------|-----------|---------------
+`OCLC_SYMBOL`  | your institution's OCLC registry symbol |    yes    |
+`REPORTS_PATH` | where to store the reports              |    no     | current working directory
+`DATE`         | date (formatted `YYYYMMDD`) of report   |    no     | today's date
+`DEBUG`        | set to `1` to `echo` the command out    |    no     | 0
+
+## examples
+
+```
+OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
+```
+
+The circulation add/delete and inventory reports are posted at 8am EST every Sunday, so setting 
+up a `cron` (on an EST-based server) would look like:
+
+```
+0 8 * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/circ-add-delete
+0 & * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
+```
