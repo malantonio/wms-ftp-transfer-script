@@ -73,10 +73,11 @@ following environment variables:
 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
 ```
 
-The circulation add/delete and inventory reports are posted at 8am EST every Sunday, so setting 
-up a `cron` (on an EST-based server) would look like:
+The circulation add/delete and inventory reports are posted every Sunday (at 8am and 10pm,
+respectively), so setting up a `cron` task (on an EST-based server) would look like:
 
 ```
 0 8 * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/circ-add-delete
-0 8 * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
+0 22 * * 0 OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
 ```
+
