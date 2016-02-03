@@ -1,9 +1,10 @@
-# wms report scripts
+# wms report transfer scripts
 
-While OCLC is phasing out uploading periodic WMS reports to an SFTP server in favor of 
-ad-hoc reports building, they do plan to continue uploading circulation add/delete and 
-item inventory reports on a weekly basis. After a little bit of setup, these bash 
-scripts can be used to automate the transfer from OCLC's SFTP to your own server.
+While OCLC is phasing out uploading periodic WMS reports to an SFTP in favor of ad-hoc
+reports building, they do plan to continue uploading certain reports on a weekly basis.
+After a little bit of setup, these bash scripts can be used to automate the transfer
+from OCLC's SFTP to your own server (currently only `Item_Inventories` and
+`Circulation-add-delete` reports).
 
 ## setup
 
@@ -13,7 +14,7 @@ for gathering reports.
 ### A) Generate an SSH keypair
 
 ```
-ssh-keygen
+$ ssh-keygen
 ```
 
 **Note:** when creating your keypair, be sure to leave the passphrase blank if you're planning
@@ -27,16 +28,16 @@ extra flags needed to accomplish anything worthwhile). I found it easier to make
 changes on my end before placing them on the OCLC server.
 
 ```
-cp ~/.ssh/id_rsa.pub ~/.ssh/oclc_authorized_keys
-chmod 640 ~/.ssh/oclc_authorized_keys
-scp ~/.ssh/oclc_authorized_keys lol@scp.oclc.org:.ssh/authorized_keys
+$ cp ~/.ssh/id_rsa.pub ~/.ssh/oclc_authorized_keys
+$ chmod 640 ~/.ssh/oclc_authorized_keys
+$ scp ~/.ssh/oclc_authorized_keys lol@sftp.oclc.org:.ssh/authorized_keys
 ```
 
 **Note:** if you created a separate key, use that name in place of `id_rsa`.
 
 **Another note:** `lol` should be replaced with your library's OCLC symbol.
 
-Enter `yes` to add the SFTP's IP to your list of authorized hosts, then enter your 
+Enter `yes` to add the SFTP's IP to your list of authorized hosts, then enter your
 password.
 
 ### C) Give it a whirl
@@ -44,7 +45,7 @@ password.
 Try running:
 
 ```
-sftp lol@scp.oclc.org
+$ sftp lol@sftp.oclc.org
 ```
 
 If it connects without prompting you for a password, you're all set to go!
@@ -52,12 +53,12 @@ If it connects without prompting you for a password, you're all set to go!
 ## usage
 
 ```
-git clone https://github.com/malantonio/wms-report-scripts
-cd wms-report-scripts
+$ git clone https://github.com/malantonio/wms-report-scripts
+$ cd wms-report-scripts
 ```
 
 With the exception of the titles of the files being copied, the two scripts are identical.
-(Probably could do to combine them and add another variable / flag). Both accept the 
+(Probably could do to combine them and add another variable / flag). Both accept the
 following environment variables:
 
       var      |               description               | required? | default value
@@ -70,7 +71,7 @@ following environment variables:
 ## examples
 
 ```
-OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
+$ OCLC_SYMBOL=lol REPORTS_PATH=/path/to/reports /path/to/scripts/inventory
 ```
 
 The circulation add/delete and inventory reports are posted every Sunday (at 8am and 10pm,
