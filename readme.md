@@ -53,7 +53,7 @@ If it connects without prompting you for a password, you're all set to go!
 ## usage
 
 ```
-$ git clone https://github.com/malantonio/wms-report-scripts
+$ git clone https://github.com/malantonio/wms-ftp-transfer-scripts
 $ cd wms-report-scripts
 ```
 
