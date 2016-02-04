@@ -53,13 +53,15 @@ If it connects without prompting you for a password, you're all set to go!
 ## usage
 
 ```
-$ git clone https://github.com/malantonio/wms-ftp-transfer-scripts
-$ cd wms-report-scripts
+$ git clone https://github.com/malantonio/wms-ftp-transfer-script
+$ cd wms-ftp-transfer-script
+$ OCLC_SYMBOL=lol REPORT_NAME=Overdue_Report OUT_PATH=/path/to/reports/overdue /path/to/get-wms-report.sh
 ```
 
-With the exception of the titles of the files being copied, the two scripts are identical.
-(Probably could do to combine them and add another variable / flag). Both accept the
-following environment variables:
+As of now, you'll have to pass values as environment variables (though if you're good with
+writing bash scripts that use flags instead a PR would brighten my day!). Passing `*` for
+both `REPORT_NAME` and `DATE` _should_ get you every report, if that's your thing.
+We're currently running a cron task for each publish time (see the [cron example][ce] below).
 
       var      |               description               | required? | default value
 ---------------|-----------------------------------------|-----------|---------------
@@ -69,11 +71,13 @@ following environment variables:
 `DATE`         | date (formatted `YYYYMMDD`) of report   |    no     | today's date
 `DEBUG`        | set to `1` to `echo` the command out    |    no     | 0
 
+**Note:** `REPORT_NAME` can contain multiple comma-delimited reports
+
 ## Available Reports (as of 2/4/16)
 
 Report name              | Publish time
 -------------------------|----------------------------
-`All_checked_out_items`  | daily @ 5:15a EST
+`All_Checked_out_items`  | daily @ 5:15a EST
 `Circulation_add_delete` | weekly (Sunday @ 5:15a EST)
 `Overdue_Report`         | daily @ 5:25a EST
 `HoldListReport`         | daily @ 6:00a EST
@@ -83,13 +87,28 @@ Report name              | Publish time
 `Patron_Report_Full`     | weekly (Sunday @ 11p EST)
 `Patron_Report_wk`       | weekly (Sunday @ 10p EST)
 
-Source: [Reconciliation FTP Reports pdf][pdf]
+Source: [Reconciliation FTP Reports pdf][pdf] + a visual tally of our FTP
+
+## cron example
+
+```
+# WMS Reconciliation FTP Reports
+# 10 minutes are added to each time to allow for delays
+
+# daily reports
+20 5 * * * OCLC_SYMBOL=lol REPORT_NAME=HoldsReadyForPickup OUT_PATH=/path/to/reports/holds-pickup /path/to/get-wms-report.sh
+25 5 * * * OCLC_SYMBOL=lol REPORT_NAME=All_Checked_out_items OUT_PATH=/path/to/reports/checked-out /path/to/get-wms-report.sh
+35 5 * * * OCLC_SYMBOL=lol REPORT_NAME=Overdue_Report OUT_PATH=/path/to/reports/overdue /path/to/get-wms-report.sh
+10 6 * * * OCLC_SYMBOL=lol REPORT_NAME=HoldListReport OUT_PATH=/path/to/reports/hold-list /path/to/get-wms-report.sh
+10 6 * * * OCLC_SYMBOL=lol REPORT_NAME=Open_Holds OUT_PATH=/path/to/reports/open-holds /path/to/get-wms-report.sh
+
+# weekly reports
+25 5 * * 0 OCLC_SYMBOL=lol REPORT_NAME=Circulation_add_delete OUT_PATH=/path/to/reports/add-delete /path/to/get-wms-report.sh
+10 22 * * 0 OCLC_SYMBOL=lol REPORT_NAME=Item_Inventories OUT_PATH=/path/to/reports/inventory /path/to/get-wms-report.sh
+10 22 * * 0 OCLC_SYMBOL=lol REPORT_NAME=Patron_Report_wk OUT_PATH=/path/to/reports/patron-wk /path/to/get-wms-report.sh
+10 23 * * 0 OCLC_SYMBOL=lol REPORT_NAME=Patron_Report_Full OUT_PATH=/path/to/reports/patron-full /path/to/get-wms-report.sh
+```
+
 
 [pdf]: https://www.oclc.org/support/worldshare-management-services/sites/www.oclc.org.support.worldshare-management-services/files/FTP_Reconciliation_Reports.pdf
-
-
-## examples
-
-```
-$ OCLC_SYMBOL=lol REPORT_NAME=Item_Inventories OUT_PATH=/path/to/reports /path/to/get-wms-report.sh
-```
+[ce]: #cron-example
