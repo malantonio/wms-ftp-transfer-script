@@ -1,4 +1,4 @@
-# wms report transfer scripts
+# wms report transfer script
 
 While OCLC is phasing out uploading periodic WMS reports to an SFTP in favor of ad-hoc
 reports building, they do plan to continue uploading certain reports on a weekly basis.
