@@ -29,7 +29,7 @@ changes on my end before placing them on the OCLC server.
 ```
 $ cp ~/.ssh/id_rsa.pub ~/.ssh/oclc_authorized_keys
 $ chmod 640 ~/.ssh/oclc_authorized_keys
-$ scp ~/.ssh/oclc_authorized_keys lol@sftp.oclc.org:.ssh/authorized_keys
+$ scp ~/.ssh/oclc_authorized_keys lol@scp.oclc.org:.ssh/authorized_keys
 ```
 
 **Note:** if you created a separate key, use that name in place of `id_rsa`.
@@ -45,7 +45,7 @@ password.
 Try running:
 
 ```
-$ sftp lol@sftp.oclc.org
+$ sftp lol@scp.oclc.org
 ```
 
 If it connects without prompting you for a password, you're all set to go!
