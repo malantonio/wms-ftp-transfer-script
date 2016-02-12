@@ -10,7 +10,32 @@ from OCLC's SFTP to your own server.
 You'll want to either use a prexisting public/private keypair or generate one specifically
 for gathering reports.
 
-### A) Generate an SSH keypair
+### A) Log into the OCLC server and set up the environment
+
+Before you can copy a key to the server, there needs to be a `.ssh` folder in
+your OCLC server home directory. I found that the server will not display a
+prompt if you use ssh to log into the server, so I use sftp to (very limitedly)
+navigate.
+
+```
+$ sftp lol@scp.oclc.org
+```
+
+In your home directory, create a `.ssh` directory and set the permissions to be
+`rwx------`:
+
+```
+$ mkdir .ssh
+$ chmod 700 .ssh
+```
+
+While you're here, take note of the permissions of the root directory. By default,
+[ssh wants only the user to have write permissions on the $HOME folder][ssh-perms].
+If it looks like `rwxrw----`, you'll want to chmod it to remove group write
+permissions (otherwise ssh won't work and you'll be prompted for a password every
+time).
+
+### B) Generate an SSH keypair
 
 ```
 $ ssh-keygen
@@ -19,7 +44,7 @@ $ ssh-keygen
 **Note:** when creating your keypair, be sure to leave the passphrase blank if you're planning
 to automate the report-copying process.
 
-### B) Copy the public file and move it to the SFTP
+### C) Copy the public file and move it to the SFTP
 
 The SFTP server is quite stripped down as far as what commands can be run (I was only
 able to run very basic `ls`, `mkdir`, `rm`, and `chmod` commands, most without the
@@ -40,7 +65,7 @@ Unless that _is_ your symbol, in which case, you've officially won.
 Enter `yes` to add the SFTP's IP to your list of authorized hosts, then enter your
 password.
 
-### C) Give it a whirl
+### D) Give it a whirl
 
 Try running:
 
@@ -110,5 +135,6 @@ Source: [Reconciliation FTP Reports pdf][pdf] + a visual tally of our FTP
 ```
 
 
+[ssh-perms]: http://unix.stackexchange.com/a/37166
 [pdf]: https://www.oclc.org/support/worldshare-management-services/sites/www.oclc.org.support.worldshare-management-services/files/FTP_Reconciliation_Reports.pdf
 [ce]: #cron-example
