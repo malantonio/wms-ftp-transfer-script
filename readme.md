@@ -112,7 +112,11 @@ Report name              | Publish time
 `Patron_Report_Full`     | weekly (Sunday @ 11p EST)
 `Patron_Report_wk`       | weekly (Sunday @ 10p EST)
 
-Source: [Reconciliation FTP Reports pdf][pdf] + a visual tally of our FTP
+Source: [Available Reports for WMS pdf][pdf], times from an older
+[Reconciliation FTP Reports pdf][ftp-reports].
+
+**Note:** I've found that the times can differ and that adding 10-30 minutes
+to their retrieval time better guarantees their being-there.
 
 ## cron example
 
@@ -136,5 +140,6 @@ Source: [Reconciliation FTP Reports pdf][pdf] + a visual tally of our FTP
 
 
 [ssh-perms]: http://unix.stackexchange.com/a/37166
-[pdf]: https://www.oclc.org/support/worldshare-management-services/sites/www.oclc.org.support.worldshare-management-services/files/FTP_Reconciliation_Reports.pdf
+[pdf]: http://www.oclc.org/content/dam/support/acquisitions/reports/Available_Reports.pdf#14
+[ftp-reports]: https://www.oclc.org/support/worldshare-management-services/sites/www.oclc.org.support.worldshare-management-services/files/FTP_Reconciliation_Reports.pdf
 [ce]: #cron-example
